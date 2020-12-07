@@ -63,12 +63,15 @@ var box2d = {
                 }
 
                 // If entities have a bounce sound, play the sound
-                if (entity1.bounceSound) {
-                    entity1.bounceSound.play();
-                }
+                if(getFSoundState()) {
 
-                if (entity2.bounceSound) {
-                    entity2.bounceSound.play();
+                    if (entity1.bounceSound) {
+                        entity1.bounceSound.play();
+                    }
+
+                    if (entity2.bounceSound) {
+                        entity2.bounceSound.play();
+                    }
                 }
             }
         };

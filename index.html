@@ -7,12 +7,38 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="mobile-web-app-capable" content="yes">
 
-        <title>Shut It</title>
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:site" content="@jeromedh_cm">
+        <meta name="twitter:image" content="favicon.png">
+
+        <meta property="og:locale" content="en">
+        <meta property="og:type" content="web-app">
+        <meta property="og:title" content="Break-All">
+        <meta property="og:description" content="Break-All is the Game to break and destroy all objects in a scene">
+        <meta property="og:url" content="">
+        <meta property="og:site_name" content="Break-All">
+        <meta property="og:image" content="favicon.png">
+        <meta property="og:image:width" content="256">
+        <meta property="og:image:height" content="256">
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="icon" href="favicon.png" type="image/png" sizes="256x256">
+        <link rel="apple-touch-icon" href="favicon.png">
+        <link rel="preload" href="fonts/Beautiful.ttf" as="font" type="font/truetype" crossorigin>
+        <link rel="preload" href="fonts/BLACK.ttf" as="font" type="font/truetype" crossorigin>
+        <link rel="preload" href="fonts/Vegan.ttf" as="font" type="font/truetype" crossorigin>
+
+        <link rel="author" href="mailto:jdieuhou@gmail.com" />
+        <link rel="author" type="text/html" href="https://www.linkedin.com/in/jerome-dh" />
+
+        <meta name="author" content="Jerome Dh">
+        <meta name="description" content="Break-All is the Game to break and destroy all objects in a scene">
+
+        <title>Break All</title>
 
         <script src="js/Box2d.min.js" type="text/javascript"></script>
         <script src="js/Constants.js" type="text/javascript"></script>
         <script src="js/Utils.js" type="text/javascript"></script>
-        <script src="js/Preferences.js" type="text/javascript"></script>
         <script src="js/wAudio.js" type="text/javascript"></script>
         <script src="js/Entities.js" type="text/javascript"></script>
         <script src="js/Levels.js" type="text/javascript"></script>
@@ -34,33 +60,322 @@
                 </canvas>
 
                 <div id="scorescreen" class="gamelayer">
-                    <img id="togglemusic" src="images/icons/sound.png" alt="Toggle Music" onclick="game.toggleBackgroundMusic()">
-                    <img src="images/icons/prev.png" alt="Restart Level" onclick="game.restartLevel()">
-                    <span id="score">Score: 0</span>
+
+                    <div id="score-left">
+                        <img src="images/icons/arrow-left-score.png" width="32" alt="Back" onclick="game.exitPlaying()">
+                        <img id="togglemusic" src="images/icons/volume-high.png" width="32" alt="Toggle Music" onclick="game.toggleBackgroundMusic()">
+                        <img src="images/icons/spinner.png" alt="Restart Level" width="32" onclick="game.restartLevel()">
+                        <img src="images/icons/question.png" alt="Help" width="32" onclick="game.showHelpScreen()">
+                    </div>
+
+                    <div id="score-right">
+
+                        <span>
+                            <img src="images/icons/user.png" width="20" alt="User icon">
+                            <span id="pseudo-scorescreen"></span>
+                        </span>
+
+                        <span class="yellow">
+                            Level: <span id="level-scorescreen"></span>
+                        </span>
+
+                        <span id="score">Score: 0</span>
+
+                    </div>
+
                 </div>
 
                 <div id="endingscreen" class="gamelayer">
+
                     <div>
-                        <p id="endingmessage">The Level Is Over Message</p>
-                        <p id="playcurrentlevel" class="endingoption" alt="Replay" onclick="game.restartLevel()"><img src="images/icons/prev.png">Replay Current Level</p>
-                        <p id="playnextlevel" class="endingoption" alt="Next" onclick="game.startNextLevel()"><img src="images/icons/next.png">Play Next Level</p>
-                        <p id="returntolevelscreen" class="endingoption" alt="Return" onclick="game.showLevelScreen()"><img src="images/icons/return.png">Return to Level Screen</p>
+                        <p id="endingmessage" class="yellow"><img src='images/icons/checkmark.png' width='32' alt='Well'> The Level Is Over Message</p>
+
+                        <p id="playcurrentlevel" class="endingoption" onclick="game.restartLevel()">
+                            <img src="images/icons/spinner.png" width="28" alt="Replay">Replay Current Level
+                        </p>
+
+                        <p id="playnextlevel" class="endingoption" onclick="game.startNextLevel()">
+                            <img src="images/icons/next.png" width="32" alt="Next Level">Play Next Level
+                        </p>
+
+                        <p id="returntolevelscreen" class="endingoption" onclick="game.showLevelScreen()">
+                            <img src="images/icons/undo.png" width="32" alt="Return">Return to Level Screen
+                        </p>
                     </div>
+
                 </div>
 
                 <div id="gamestartscreen" class="gamelayer">
-                    <img src="images/icons/play.png" alt="Play Game" onclick="game.playGame()"><br>
-                    <img src="images/icons/settings.png" alt="Settings">
+
+                    <div class="text">
+                        <p>
+                            <img src="images/icons/0131-spinner9.png" alt="Deco" width="10"/>
+                            Design to be playing with Mouse or Touch
+                        </p>
+                    </div>
+
+                    <div class="buttons">
+
+                        <div class="btn-play" onclick="game.playGame()">
+                        </div>
+
+                        <div class="btn-settings" onclick="game.showSettingScreen()">
+                            <img src="images/icons/config.png" alt="Settings" width="16"/>
+                            Settings
+                        </div>
+
+                        <div class="btn-about" onclick="game.showAboutScreen()">
+                            <img src="images/icons/price-tags-2.png" alt="About" width="16"/>
+                            About
+                        </div>
+                    </div>
+
                 </div>
 
                 <div id="levelselectscreen" class="gamelayer">
+
+                    <div class="content">
+
+                        <div class="navigation">
+                            <img src="images/icons/arrow-left.png" onclick="game.showStartScreen()" class="go-left" alt="Go Back" width="32" title="Back"/>
+                            <img src="images/icons/arrow-right.png" onclick="game.continueLeavingLevel()" class="go-right" alt="Continue" width="32" title="Continue"/>
+                        </div>
+
+                        <h3 class="title">
+                            Choose Your Level
+                        </h3>
+
+                        <div id="levels-list">
+                        </div>
+
+                        <hr/>
+
+                        <table width="100%" cellspacing="3" cellpadding="3">
+                            <tr>
+                                <td>Your Best Level</td>
+                                <td id="label-best-level"></td>
+                            </tr>
+                            <tr>
+                                <td>Your Best Score</td>
+                                <td id="label-best-score"></td>
+                            </tr>
+                            <tr>
+                                <td>Best Online Score</td>
+                                <td><span id="label-best-online-score"></span> &nbsp; &nbsp; 
+                                <small class="small-link" onclick="game.showAllScoreScreen()">See All Scores</small></td>
+                            </tr>
+                            <tr>
+                                <td>Your name</td>
+                                <td>
+                                    <span id="label-current-pseudo"></span> &nbsp; &nbsp; 
+                                    <small class="small-link" onclick="game.showSettingScreen()">Change In Settings</small>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+
                 </div>
 
                 <div id="loadingscreen" class="gamelayer">
                     <div id="loadingmessage"></div>
                 </div>
 
+                <div id="settingscreen" class="gamelayer">
+
+                    <div class="content">
+
+                        <div class="navigation">
+                            <img src="images/icons/arrow-left.png" onclick="game.showStartScreen()" class="go-left" alt="Go Back" width="32" title="Back"/>
+                        </div>
+
+                        <h3 class="title">
+                            <img src="images/icons/config.png" alt="Settings" width="20"/>
+                            Settings
+                        </h3>
+
+                        <hr/>
+
+                        <table width="100%" cellspacing="5" cellpadding="5">
+
+                            <tr>
+                                <td>Your name</td>
+                                <td>
+                                    <label for="pseudo">
+                                        <input type="text" id="pseudo" name="pseudo" placeholder="Pseudo">
+                                    </label>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Background Sound</td>
+                                <td id="">
+                                    <label for="bsound_on">
+                                        <input type="radio" id="bsound_on" name="bsound" value="on" checked/>
+                                        On
+                                    </label>
+                                    <label for="bsound_off">
+                                        <input type="radio" id="bsound_off" name="bsound" value="off" />
+                                        Off
+                                    </label> &nbsp;
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Break Sound</td>
+                                <td id="">
+                                    <label for="fsound_on">
+                                        <input type="radio" id="fsound_on" name="fsound" value="on" checked />
+                                        On
+                                    </label>
+                                    <label for="fsound_off">
+                                        <input type="radio" id="fsound_off" name="fsound" value="off" />
+                                        Off
+                                    </label> &nbsp;
+                                </td>
+                            </tr>
+
+                            <tr>
+
+                                <td>Save my score online</td>
+                                <td>
+                                    <label for="save-score-online-on">
+                                        <input type="radio" id="save-score-online-on" checked name="save_score_online" value="on"/>
+                                        Yes
+                                    </label>
+                                    <label for="save-score-online-off">
+                                        <input type="radio" id="save-score-online-off" name="save_score_online" value="off"/>
+                                        No
+                                    </label>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td></td>
+                                <td id="save-button">
+                                    <button type="submit" onclick="saveSettings()">
+                                    <img src="images/icons/drive.png" alt="Settings" width="16"/>
+                                    Save change</button>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+                <div id="aboutscreen" class="gamelayer">
+
+                    <div class="content">
+
+                        <div class="navigation">
+                            <img src="images/icons/arrow-left.png" onclick="game.showStartScreen()" class="go-left" alt="Go Back" width="32" title="Back"/>
+                        </div>
+
+                        <h3 class="title">
+                            <img src="images/icons/price-tags-2.png" alt="About" width="20"/>
+                            About
+                        </h3>
+
+                        <hr/>
+
+                        <p>
+                            Break-All is a solid game which can be playing in the desktop browser as also as mobile.
+                            It consists like Angry Bird to break some objets in the area.
+                        </p>
+
+                        <p>
+                            The screens give a realistic gameplay and support mouse or touch.
+                            It can be play with background sound who give more truly state of the scene.
+                            The player can share his score online and 
+                            <a href="javascript:void()" onclick="game.showAllScoreScreen()">see for all others</a>. 
+                        </p>
+
+                        <p>
+                            This game was developed by <a href="https://www.linkedin.com/in/jerome-dh" target="_blank">Jerome Dh</a>
+                            on its hobby time and it's free and open source.<br/>
+                            For user player, the game is playing online by connecting on his address, this allow user to play without any dependancy.<br/>
+                            For user Developper, the source code is shared on <a href="https://github.com/jerome-dh/break-all" target="_blank">Github</a>. 
+                            They can clone and modify on their own convenience.
+                        </p>
+
+                        <hr/>
+
+                        <p>
+                            &copy; MILLE MEDIA - 2020 
+                        </p>
+                    </div>
+
+                </div>
+
+                <div id="allscorescreen" class="gamelayer">
+
+                    <div class="content">
+
+                        <div class="navigation">
+                            <img src="images/icons/arrow-left.png" onclick="game.showStartScreen()" class="go-left" alt="Go Back" width="32" title="Back"/>
+                        </div>
+
+                        <h3 class="title">
+                            <img src="images/icons/file-text.png" alt="About" width="20"/>
+                            All Online Scores
+                        </h3>
+
+                        <hr/>
+
+                        <div class="score-list">
+                            <table width="100%" border="1" cellspacing="3" cellpadding="3">
+                                <tr>
+                                    <th>Ip Address</th>
+                                    <th>Pseudo</th>
+                                    <th>Score</th>
+                                    <th>Date</th>
+                                    <th>Level</th>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div id="helpscreen" class="gamelayer">
+
+                    <div class="content">
+
+                        <div class="navigation">
+                            <img src="images/icons/close.png" onclick="game.closeHelpScreen()" class="go-right" alt="Close" width="32" title="Close"/>
+                        </div>
+
+                        <h3 class="title">
+                            <img src="images/icons/info.png" alt="Help" width="20"/>
+                            Help
+                        </h3>
+
+                        <hr/>
+
+                        <p>
+                             <strong>How to play ?</strong><br/>
+                             You want to use a slingshot to shoot and to break all objects inside the scene.
+                        </p>
+
+                        <p>
+                            <strong>How to Configure ?</strong><br/>
+                            To configure the sound state, your name and others, please click go 
+                            <small class="small-link" onclick="game.showSettingScreen()">In Settings</small>
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <footer id="footerscreen">
+                    <small>&copy; MILLE MEDIA</small>
+                </footer>
+
             </div>
+
         </div>
     </body>
 </html>

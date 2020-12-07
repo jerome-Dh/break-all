@@ -21,9 +21,9 @@ var game = {
         mouse.init();
 
         game.loadSounds(function() {
-            game.hideScreens();
-            game.showScreen("gamestartscreen");
+            // game.showStartScreen();
         });
+        game.showStartScreen();
 
     },
 
@@ -77,8 +77,11 @@ var game = {
     },
 
     startBackgroundMusic: function() {
-        game.backgroundMusic.play();
-        game.setBackgroundMusicButton();
+
+        if(getBSoundState()) {
+            game.backgroundMusic.play();
+            game.setBackgroundMusicButton();
+        }
     },
 
     stopBackgroundMusic: function() {
@@ -90,9 +93,12 @@ var game = {
     },
 
     toggleBackgroundMusic: function() {
-        if (game.backgroundMusic.paused) {
+
+        if ( ! getBSoundState()) {
+            setBSoundState(true);
             game.backgroundMusic.play();
         } else {
+            setBSoundState(false);
             game.backgroundMusic.pause();
         }
 
@@ -100,17 +106,19 @@ var game = {
     },
 
     setBackgroundMusicButton: function() {
-        var toggleImage = document.getElementById("togglemusic");
+
+        let toggleImage = document.getElementById("togglemusic");
 
         if (game.backgroundMusic.paused) {
-            toggleImage.src = "images/icons/nosound.png";
+            toggleImage.src = "images/icons/volume-mute.png";
         } else {
-            toggleImage.src = "images/icons/sound.png";
+            toggleImage.src = "images/icons/volume-high.png";
         }
     },
 
     hideScreens: function() {
-        var screens = document.getElementsByClassName("gamelayer");
+
+        let screens = document.getElementsByClassName("gamelayer");
 
         for (let i = screens.length - 1; i >= 0; i--) {
             var screen = screens[i];
@@ -132,6 +140,41 @@ var game = {
     showLevelScreen: function() {
         game.hideScreens();
         game.showScreen("levelselectscreen");
+
+        game.updateLevelScreen();
+    },
+
+    showSettingScreen: function() {
+
+        game.stopBackgroundMusic();
+
+        game.hideScreens();
+        game.showScreen("settingscreen");
+        restaureSettings();
+    },
+
+    showAboutScreen: function() {
+        game.hideScreens();
+        game.showScreen("aboutscreen");
+    },
+
+    showAllScoreScreen: function() {
+        game.hideScreens();
+        game.showScreen("allscorescreen");
+        getAllScoreFromServer();
+    },
+
+    showStartScreen: function() {
+        game.hideScreens();
+        game.showScreen("gamestartscreen");
+    },
+
+    showHelpScreen: function() {
+        game.showScreen('helpscreen');
+    },
+
+    closeHelpScreen: function() {
+        game.hideScreen('helpscreen');
     },
 
     restartLevel: function() {
@@ -144,6 +187,37 @@ var game = {
         window.cancelAnimationFrame(game.animationFrame);
         game.lastUpdateTime = undefined;
         levels.load(game.currentLevel.number + 1);
+    },
+
+    exitPlaying: function() {
+        window.cancelAnimationFrame(game.animationFrame);
+        game.lastUpdateTime = undefined;
+
+        game.showLevelScreen();
+    },
+
+    continueLeavingLevel: function() {
+        game.hideScreen("levelselectscreen");
+        levels.load(getBestLevel());
+    },
+
+    updateInformationScoreScreen: function() {
+        document.getElementById('level-scorescreen').innerHTML = getCurrentLevel() + 1;
+        document.getElementById('pseudo-scorescreen').innerHTML = getCurrentPseudo();
+    },
+
+    // Show actual game players informations
+    updateLevelScreen: function() {
+
+        game.stopBackgroundMusic();
+
+        document.getElementById('label-best-level').innerHTML = getBestLevel() + 1;
+        document.getElementById('label-best-score').innerHTML = getBestScore();
+        document.getElementById('label-current-pseudo').innerHTML = getCurrentPseudo();
+        document.getElementById('label-best-online-score').innerHTML = getBestOnlineScore();
+
+        // Disabled or enabled level
+        enableOrDisableLevelButtons();
     },
 
     // Store current game state - intro, wait-for-firing, firing, fired, load-next-hero, success, failure
@@ -173,6 +247,7 @@ var game = {
         // Display the game canvas and score
         game.showScreen("gamecanvas");
         game.showScreen("scorescreen");
+        game.updateInformationScoreScreen();
 
         game.mode = "intro";
         game.currentHero = undefined;
@@ -316,9 +391,9 @@ var game = {
                     y: (game.slingshotBandY + distance * Math.sin(angle)) / box2d.scale });
 
             } else {
-                
+
                 game.mode = "fired";
-                
+
                 let impulseScaleFactor = 0.8,
                     heroPosition = game.currentHero.GetPosition(),
                     heroPositionX = heroPosition.x * box2d.scale,
@@ -334,7 +409,9 @@ var game = {
                 game.currentHero.SetAngularDamping(2);
 
                 // Play the slingshot released sound
-                game.slingshotReleasedSound.play();
+                if(getFSoundState()) {
+                    game.slingshotReleasedSound.play();
+                }
             }
         }
 
@@ -346,7 +423,7 @@ var game = {
             game.panTo(heroX);
 
             // Wait till the hero stops moving or is out of bounds
-            if (!game.currentHero.IsAwake() || heroX < 0 || heroX > game.currentLevel.foregroundImage.width) {
+            if ( ! game.currentHero.IsAwake() || heroX < 0 || heroX > game.currentLevel.foregroundImage.width) {
                 // then remove the hero from the box2d world
                 box2d.world.DestroyBody(game.currentHero);
                 // clear the current hero
@@ -363,6 +440,7 @@ var game = {
 
             // Check if any villains are alive, if not, end the level (success)
             if (game.villains.length === 0) {
+
                 game.mode = "level-success";
                 return;
             }
@@ -497,7 +575,7 @@ var game = {
     },
 
     drawSlingshotBand: function() {
-        
+
         game.context.strokeStyle = "rgb(68,31,11)"; // Dark brown color
         game.context.lineWidth = 7; // Draw a thick line
 
@@ -555,8 +633,8 @@ var game = {
                         document.getElementById("score").innerHTML = "Score: " + game.score;
                     }
 
-                    // If entity has a break sound, play the sound
-                    if (entity.breakSound) {
+                    // If entity has a break sound and if Foreground sound is On, play the sound
+                    if (entity.breakSound && getFSoundState()) {
                         entity.breakSound.play();
                     }
                 }
@@ -565,22 +643,32 @@ var game = {
     },
 
     showEndingScreen: function() {
-        
+
         let playNextLevel = document.getElementById("playnextlevel"),
             endingMessage = document.getElementById("endingmessage");
 
         if (game.mode === "level-success") {
+
             if (game.currentLevel.number < levels.data.length - 1) {
-                endingMessage.innerHTML = "Level Complete. Well Done!!!";
+
+                endingMessage.innerHTML = "<img src='images/icons/checkmark2.png' width='32' alt='Well'> Level Complete. Well Done !!";
+
                 // More levels available. Show the play next level button
                 playNextLevel.style.display = "block";
+
+                // Deblock the next level
+                deblockLevel(game.currentLevel.number + 1);
+
+                // Save the score
+                saveNewScore(game.score);
+
             } else {
-                endingMessage.innerHTML = "All Levels Complete. Well Done!!!";
+                endingMessage.innerHTML = "<img src='images/icons/checkmark.png' width='32' alt='Well'> All Levels Complete. Well Done !!";
                 // No more levels. Hide the play next level button
                 playNextLevel.style.display = "none";
             }
         } else if (game.mode === "level-failure") {
-            endingMessage.innerHTML = "Failed. Play Again?";
+            endingMessage.innerHTML = "<img src='images/icons/warning.png' width='32' alt='Failed'> Failed. Play Again?";
             // Failed level. Hide the play next level button
             playNextLevel.style.display = "none";
         }
