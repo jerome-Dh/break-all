@@ -132,10 +132,31 @@ function setSaveOnlineState(state) {
 }
 
 /**
- * Get the current online best score
+ * Save the level
+ * @param {int} level 
  */
-function getBestOnlineScore() {
-    return getBestScore();
+function deblockLevel(level) {
+
+    let saved = getBestLevel();
+    if(saved < level) {
+        setBestLevel(level);
+    }
+}
+
+/**
+ * Save the current score
+ * @param {int} score 
+ */
+function saveNewScore(score) {
+
+    if(score > getBestScore()) {
+        setCurrentScore(score);
+
+		// Save Online
+		if(getSaveOnlineState()) {
+			sendPlayerScoreOnline();
+		}
+    }
 }
 
 /**
@@ -195,23 +216,223 @@ function restaureSettings() {
 }
 
 /**
+ * Get the current online best score
+ */
+function getBestOnlineScore(node) {
+
+	if(window.fetch)
+	{
+		// Fetch API 
+		fetch(SCORE_URL)
+		.then((response) => response.json())
+		.then((responseJson) => {
+			// console.log(responseJson);
+			computeBestOnlineScore(responseJson, node);
+		})
+		.catch((error) => {
+			
+		});
+	}
+	else {
+		// XMLHttpRequest API
+		let myRequest = new XMLHttpRequest();
+		myRequest.onreadystatechange = function(e) {
+			if(myRequest.readyState == XMLHttpRequest.DONE)
+			{
+				if(myRequest.status === 200) {
+					// console.log(myRequest.responseText);
+					computeBestOnlineScore(JSON.parse(myRequest.responseText), node);
+				}
+			}
+			else {
+				return;
+			}
+		};
+		myRequest.open("GET", SCORE_URL);
+		myRequest.setRequestHeader("Content-Type", "application/json");
+		myRequest.send();
+
+	}
+}
+
+/**
+ * find the best online score in players list 
+ */
+function computeBestOnlineScore(data, node) {
+
+	let max = 0;
+	if(data.status && data.content && data.content.length) {
+
+		let players = data.content;
+		max = players[0].score;
+		for (let i = 0; i < players.length; ++i) {
+			if(players[i].score > max) {
+				max = players[i].score;
+			}
+		}
+	}
+
+	node.innerHTML = max;
+}
+
+/**
  * Get All scores from server
  */
 function getAllScoreFromServer() {
 
-    // Make a Ajax call
+	let info = document.getElementById('info-zone'),
+		loader = document.getElementById('loading-score');
+
+	info.style.display = 'none';
+	loader.style.display = 'block';
+
+	if(window.fetch)
+	{
+		// Fetch API 
+		fetch(SCORE_URL)
+		.then((response) => response.json())
+		.then((responseJson) => {
+			loader.style.display = 'none';
+			// console.log(responseJson);
+			displayOnlineScores(responseJson);
+		})
+		.catch((error) => {
+			loader.style.display = 'none';
+			info.innerHTML = 'An error occurred !';
+			info.style.display = 'block';
+		});
+	}
+	else {
+		// XMLHttpRequest API
+		let myRequest = new XMLHttpRequest();
+		myRequest.onreadystatechange = function(e) {
+			if(myRequest.readyState == XMLHttpRequest.DONE)
+			{
+				if(myRequest.status === 200) {
+					loader.style.display = 'none';
+					// console.log(myRequest.responseText);
+					displayOnlineScores(JSON.parse(myRequest.responseText));
+				}
+				else {
+					loader.style.display = 'none';
+					info.innerHTML = 'An error occurred !';
+					info.style.display = 'block';
+				}
+			}
+			else {
+				return;
+			}
+		};
+		myRequest.open("GET", SCORE_URL);
+		myRequest.setRequestHeader("Content-Type", "application/json");
+		myRequest.send();
+
+	}	
 }
 
 /**
- * Save the level
- * @param {int} level 
+ * Display the online scores in page
  */
-function deblockLevel(level) {
+function displayOnlineScores(data) {
 
-    let saved = getBestLevel();
-    if(saved < level) {
-        setBestLevel(level);
-    }
+	let info = document.getElementById('info-zone');
+			
+	if( ! data.status) {
+		info.innerHTML = data.content;
+		info.style.display = 'block';
+	}
+	else {
+
+		let players = data.content,
+			table_scores = document.getElementById('table-scores');
+
+		if( ! players.length) {
+			info.innerHTML = '!! No score recorded !!';
+			info.style.display = 'block';
+		}
+		else {
+
+			// Remove others
+			let already = document.getElementsByClassName('player-score-online');
+			for(let i = 0; i < already.length; ++i){
+				table_scores.removeChild(already[i]);
+			}
+
+			for (let i=0; i < players.length; ++i) {
+
+				// Make a Ajax call
+				let tds = '<td>' + players[i].addr + '<br/><small>' + players[i].date + '</small></td>'
+						+'<td>' + players[i].pseudo + '</td>'
+						+'<td>' + players[i].score + '</td>'
+						+'<td>' + players[i].level + '</td>',
+
+					tr = document.createElement('tr');
+				tr.classList.add('player-score-online');
+				tr.innerHTML = tds;
+
+				table_scores.appendChild(tr);
+			}
+		}
+	}
+}
+
+/**
+ * Send the player score online
+ */
+function sendPlayerScoreOnline() {
+	
+	let date = new Date(),
+
+		dateStr = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear(),
+
+		player = {
+			pseudo: getCurrentPseudo(),
+			score: getBestScore(),
+			date: dateStr,
+			level: getBestLevel()
+		};
+
+	if(window.fetch)
+	{
+		// Fetch API
+		fetch(SCORE_URL, {
+			method: 'POST',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(player)
+		})
+		.then((response) => response.json())
+		.then((responseJson) => {
+			// console.log(responseJson);
+		})
+		.catch((error) => {
+			// console.log(error);
+		});
+	}
+	else {
+		// XMLHttpRequest API
+		let myRequest = new XMLHttpRequest();
+		myRequest.onreadystatechange = function(e) {
+			if(myRequest.readyState == XMLHttpRequest.DONE)
+			{
+				if(myRequest.status === 200) {
+					// console.log(myRequest.responseText);
+				}
+				else {
+					// console.log(myRequest.responseText);
+				}
+			}
+			else {
+				return;
+			}
+		};
+		myRequest.open("POST", SCORE_URL);
+		myRequest.setRequestHeader("Content-Type", "application/json");
+		myRequest.send(JSON.stringify(player));
+
+	}
 }
 
 /**
@@ -228,14 +449,8 @@ function enableOrDisableLevelButtons() {
         }
     }
 }
-
-/**
- * Save the current score
- * @param {int} score 
- */
-function saveNewScore(score) {
-
-    if(score > getBestScore()) {
-        setCurrentScore(score);
-    }
+// Only for test
+function test() {
+	game.hideScreens();
+	game.showScreen('endingscreen');
 }
