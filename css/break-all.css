@@ -1,0 +1,405 @@
+body {
+    background: #000900;
+
+    /* Prevent the ugly blue highlighting from accidental selection of text */
+    user-select: none;
+
+    /* Disable long touch hold select */
+    -webkit-touch-callout: none !important;
+
+    /* overflow: hidden; */
+}
+
+#wrapper {
+    position: absolute;
+
+    /* Wrapper covers entire window height and width */
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+#gamecontainer {
+
+    /* Set game container width, height and background */
+    width: 640px;
+    height: 480px;
+
+    /* Use a wider splash screen and center it within the container */
+    background: url('../images/general-splashscreen.png');
+    background-repeat: no-repeat;
+    background-position: center;
+
+    /* Center the game container relative to outer wrapper */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transform-origin: center center;
+}
+
+.gamelayer {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: none;
+}
+
+#gamestartscreen {
+    background: url("../images/start-splashscreen.png");
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Import Fonts */
+@font-face {
+    font-family: 'Beautiful';
+    src: url('../fonts/Beautiful.ttf');
+}
+@font-face {
+    font-family: 'BLACK';
+    src: url('../fonts/BLACK.ttf');
+}
+
+.yellow {
+    color: yellow !important;
+}
+
+/* Game Starting Menu Screen */
+.text {
+    text-align: right;
+    padding: 0 10px;
+    font-size: 75%;
+    color: #222;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+.buttons {
+    text-align: center;
+    padding-top: 20px;
+    margin-left: 50%;
+    margin-top: 100px;
+}
+
+.btn-about, .btn-play, .btn-settings {
+    cursor: pointer;
+    margin: 15px 0;
+    position: relative;
+}
+
+.btn-about img, .btn-settings img {
+    position: absolute;
+    top: 11px;
+    left: 5px;
+}
+
+/* Buttons Decorations */
+.btn-play {
+    background: url('../images/icons/play-off.png') center no-repeat;
+    height: 120px;
+    width: 150px;
+}
+
+.btn-play:hover, .btn-play:active {
+    background: url('../images/icons/play-on.png') center no-repeat;
+}
+
+.btn-about, .btn-settings {
+    padding: 8px;
+    border-radius: 6px;
+    font: 18px "Time New Roman";
+    font-weight: 600;
+    width: 130px;
+}
+.btn-about {
+    border: 1px solid #eea;
+    background-image: linear-gradient(to bottom, #575, #9b9);
+    color: #ee7;
+ }
+.btn-about:hover {
+    background-image: linear-gradient(to bottom, #9b9, #575);
+ }
+
+
+.btn-settings {
+    border: 1px solid rgb(128, 115, 59);
+    background-image: linear-gradient(to bottom, #773, #322);
+    color: rgb(248, 248, 248);
+ }
+ .btn-settings:hover {
+    background-image: linear-gradient(to bottom, #322, #772);
+ }
+
+ /** Generique content for multiple screens */
+.content {
+    margin: 20px auto;
+    padding: 20px 30px;
+    max-width: 500px;
+    overflow: auto;
+    border: 1px solid gray;
+    border-radius: 25px;
+    background: rgba(1, 1, 1, 0.3);
+}
+
+.navigation .go-left, .navigation .go-right {
+    cursor: pointer;
+}
+.navigation .go-left:hover, .navigation .go-right:hover {
+    width: 36px;
+}
+.navigation .go-left{
+    float: left;
+}
+
+.navigation .go-right {
+    float: right;
+}
+.title {
+    text-align: center;
+    font-weight: 700;
+    font-size: x-large;
+}
+
+/* Level Selection Screen */
+#levelselectscreen .level-item-button {
+    margin: 10px;
+    cursor: pointer;
+
+    background: url("../images/icons/level.png") no-repeat;
+    color: darkgreen;
+    font-size: 20px;
+    font-weight: 600;
+
+    width: 64px;
+    height: 64px;
+
+    border: 0;
+
+    /* Remove the default blue border when an input is selected */
+    outline: 0;
+}
+
+#levelselectscreen .level-item-button:enabled:hover {
+    background: url("../images/icons/level-on.png") no-repeat;
+}
+
+#levelselectscreen .level-item-button:disabled {
+    color: silver;
+    cursor: not-allowed;
+    background: url("../images/icons/level-empty.png") no-repeat;
+}
+
+.content [name="pseudo"] {
+    background: rgba(100, 100, 100, 0.5);
+    border: 1px solid darkgray;
+    padding: 8px;
+    color: #eee;
+    border-radius: 6px;
+    width: 200px;
+}
+.content * {
+    color: #eee;
+    font-family: Arial, sans-serif;
+}
+.content [type="submit"] {
+    background: darkslategray;
+    border-radius: 6px;
+    padding: 8px;
+    width: 220px;
+    cursor: pointer;
+}
+.content [type="submit"] img {
+    position: absolute;
+    margin-left: -30px;
+    margin-top: 1px;
+}
+.small-link {
+    font-size: 80%;
+    cursor: pointer;
+    color: burlywood;
+}
+
+/* Loading Screen */
+
+#loadingscreen {
+    background: rgba(100, 100, 100, 0.5);
+}
+
+#loadingmessage {
+    margin-top: 400px;
+    text-align: center;
+    height: 48px;
+    color: white;
+    background: url("../images/loader.gif") no-repeat center;
+    font: 12px Arial;
+}
+
+/* Score Screen */
+
+#scorescreen {
+    height: 60px;
+    font: 20px "Comic Sans MS";
+    text-shadow: 0 0 2px black;
+    color: white;
+    /* background: rgba(1, 1, 1, 0.3); */
+}
+
+#scorescreen img {
+    opacity: 0.8;
+}
+
+#pseudo-scorescreen {
+    font-size: 12px;
+}
+
+#score-left img {
+    top: 5%;
+    left: 5%;
+    position: relative;
+    padding: 8px;
+    cursor: pointer;
+}
+
+#score-right {
+    position: absolute;
+    top: 15%;
+    right: 5%;
+}
+
+#score-right > span {
+    margin-left: 10px;
+}
+
+#score-right img {
+    position: absolute;
+    left: -10px;
+    width: 16px;
+    top: 9px;
+}
+
+/* Footer Screen */
+#footerscreen {
+    position: absolute;
+    bottom: 1%;
+    right: 1%;
+    display: block;
+    height: 10px;
+    width: 80px;
+    padding: 10px 0;
+    opacity: 0.6;
+    text-shadow: 0 0 2px black;
+    color: azure;
+    z-index: 9;
+    font-size: 9px;
+}
+
+/* Ending Screen */
+
+#endingscreen {
+    text-align: center;
+    background: rgba(1, 1, 1, 0.3);
+}
+
+#endingscreen .wrapper {
+
+    /* Center the popup div within the screen */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transform-origin: center center;
+
+    height: 300px;
+    width: 350px;
+
+    border: 1px solid gray;
+    border-radius: 25px;
+    background: rgba(1, 1, 1, 0.3);
+
+    padding: 10px 30px 40px 50px;
+
+    text-align: left;
+}
+
+.endingoption {
+    font: 20px "Comic Sans MS";
+    text-shadow: 0 0 2px black;
+    color: white;
+    cursor: pointer;
+}
+
+.endingmessage {
+    text-align: center;
+	display: none;
+}
+
+.endingmessage .head {
+    font: 36px "Comic Sans MS";
+    text-shadow: 0 0 2px black;
+	display: block;
+}
+
+#endingscreen .other-options p {
+	margin: 5px 0;
+}
+#endingscreen img.move {
+    top: 10px;
+    position: relative;
+    padding-right: 20px;
+}
+
+#endingscreen .share-online {
+	border-top: 1px solid #eee;
+	padding: 20px 0;
+	margin-top: 30px;
+	color: #ffe;
+	letter-spacing: 1.2px;
+	font-size: 13px;
+}
+
+
+/* About screen  */
+#aboutscreen p {
+    margin: 8px 0; 
+}
+#aboutscreen p:last-child {
+    text-align: right;
+    font-size: 12px;
+}
+
+/* All score screen */
+#allscorescreen table {
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 12px;
+}
+
+.score-list {
+    max-height: 300px;
+    max-width: 100%;
+    overflow: auto;
+}
+
+.score-list th {
+	color: #ff0;
+}
+
+.score-list small {
+	color: #ccc;
+}
+#table-scores tr:nth(even) {
+	
+}
+
+#loading-score, #info-zone {
+	text-align: center;
+	display: none;
+	padding: 10px 0;
+}
+
+/* Settings Screen */
+#info-setting {
+    color: darkkhaki;
+    font-size: 12px;
+    margin: 5px 0;
+}
