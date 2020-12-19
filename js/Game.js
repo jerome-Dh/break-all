@@ -20,10 +20,14 @@ var game = {
         loader.init();
         mouse.init();
 
+		// test();
         game.loadSounds(function() {
             // game.showStartScreen();
         });
         game.showStartScreen();
+		
+		// test();
+		// test();
 
     },
 
@@ -65,16 +69,29 @@ var game = {
     loadSounds: function(onload) {
 
         game.backgroundMusic = loader.loadSound("audio/gurdonark-kindergarten");
-
         game.slingshotReleasedSound = loader.loadSound("audio/released");
-        game.bounceSound = loader.loadSound("audio/bounce");
-        game.breakSound = {
+        game.contactSound = {
             "glass": loader.loadSound("audio/glassbreak"),
-            "wood": loader.loadSound("audio/woodbreak")
+            "wood": loader.loadSound("audio/woodbreak"),
+            "bounce": loader.loadSound("audio/bounce"),
         };
+
+		game.loadImages();
 
         loader.onload = onload;
     },
+
+	// Load some images helpers
+	loadImages: function() {
+
+		loader.loadImage('images/start-splashscreen.png');
+		loader.loadImage('images/icons/play-on.png');
+		loader.loadImage('images/icons/play-off.png');
+		loader.loadImage('images/icons/level.png');
+		loader.loadImage('images/icons/level-on.png');
+		loader.loadImage('images/icons/level-empty.png');
+		loader.loadImage('images/loader.gif');
+	},
 
     startBackgroundMusic: function() {
 
@@ -190,6 +207,7 @@ var game = {
     },
 
     exitPlaying: function() {
+        game.ended = true;
         window.cancelAnimationFrame(game.animationFrame);
         game.lastUpdateTime = undefined;
 
@@ -214,7 +232,7 @@ var game = {
         document.getElementById('label-best-level').innerHTML = getBestLevel() + 1;
         document.getElementById('label-best-score').innerHTML = getBestScore();
         document.getElementById('label-current-pseudo').innerHTML = getCurrentPseudo();
-        document.getElementById('label-best-online-score').innerHTML = getBestOnlineScore();
+		getBestOnlineScore(document.getElementById('label-best-online-score'));
 
         // Disabled or enabled level
         enableOrDisableLevelButtons();
@@ -321,7 +339,7 @@ var game = {
         game.heroes = [];
         game.villains = [];
         for (let body = box2d.world.GetBodyList(); body; body = body.GetNext()) {
-            
+
             let entity = body.GetUserData();
 
             if (entity) {
@@ -452,8 +470,8 @@ var game = {
             }
 
             // Load the hero and set mode to wait-for-firing
-            if (!game.currentHero) {
-                
+            if ( ! game.currentHero) {
+
                 // Select the last hero in the heroes array
                 game.currentHero = game.heroes[game.heroes.length - 1];
 
@@ -472,7 +490,7 @@ var game = {
                 // Wait for hero to stop bouncing on top of the slingshot and fall asleep
                 // and then switch to wait-for-firing
                 game.panTo(game.slingshotX);
-                if (!game.currentHero.IsAwake()) {
+                if ( ! game.currentHero.IsAwake()) {
                     game.mode = "wait-for-firing";
                 }
             }
@@ -564,7 +582,7 @@ var game = {
 
         // Iterate through all the bodies and draw them on the game canvas
         for (let body = box2d.world.GetBodyList(); body; body = body.GetNext()) {
-            
+
             let entity = body.GetUserData();
 
             if (entity) {
@@ -576,8 +594,8 @@ var game = {
 
     drawSlingshotBand: function() {
 
-        game.context.strokeStyle = "rgb(68,31,11)"; // Dark brown color
-        game.context.lineWidth = 7; // Draw a thick line
+        game.context.strokeStyle = "#dcb"; // Dark brown color
+        game.context.lineWidth = 12; // Draw a thick line
 
         // Use angle hero has been dragged and radius to calculate coordinates of edge of hero wrt. hero center
         let radius = game.currentHero.GetUserData().radius + 1, // 1px extra padding
@@ -591,7 +609,7 @@ var game = {
 
         game.context.beginPath();
         // Start line from top of slingshot (the back side)
-        game.context.moveTo(game.slingshotBandX - game.offsetLeft, game.slingshotBandY);
+        game.context.moveTo(game.slingshotBandX - game.offsetLeft + 3, game.slingshotBandY + 5);
 
         // Draw line to center of hero
         game.context.lineTo(heroX - game.offsetLeft, heroY);
@@ -645,34 +663,46 @@ var game = {
     showEndingScreen: function() {
 
         let playNextLevel = document.getElementById("playnextlevel"),
-            endingMessage = document.getElementById("endingmessage");
+            fail_msg = document.getElementById("fail_level_message"),
+            level_msg = document.getElementById("win_level_message"),
+            success_msg = document.getElementById("success_all_message");
+
+		fail_msg.style.display = 'none';
+		level_msg.style.display = 'none';
+		success_msg.style.display = 'none';
 
         if (game.mode === "level-success") {
 
             if (game.currentLevel.number < levels.data.length - 1) {
 
-                endingMessage.innerHTML = "<img src='images/icons/checkmark2.png' width='32' alt='Well'> Level Complete. Well Done !!";
+				level_msg.style.display = 'block';
 
                 // More levels available. Show the play next level button
                 playNextLevel.style.display = "block";
 
                 // Deblock the next level
-                deblockLevel(game.currentLevel.number + 1);
-
-                // Save the score
-                saveNewScore(game.score);
+                deblockLevel(game.currentLevel.number + 1);                
 
             } else {
-                endingMessage.innerHTML = "<img src='images/icons/checkmark.png' width='32' alt='Well'> All Levels Complete. Well Done !!";
-                // No more levels. Hide the play next level button
+
+				success_msg.style.display = 'block';
+
+				// No more levels. Hide the play next level button
                 playNextLevel.style.display = "none";
             }
+
+			// Save the score
+            saveNewScore(game.score);
+
         } else if (game.mode === "level-failure") {
-            endingMessage.innerHTML = "<img src='images/icons/warning.png' width='32' alt='Failed'> Failed. Play Again?";
+
+			fail_msg.style.display = 'block';
+
             // Failed level. Hide the play next level button
             playNextLevel.style.display = "none";
         }
 
+        game.hideScreen("helpscreen");
         game.showScreen("endingscreen");
 
         // Stop the background music when the game ends
