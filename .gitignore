@@ -1,0 +1,11 @@
+# Ignored files
+
+*.log
+
+*.psd
+
+log.txt
+
+test.php
+
+managers
