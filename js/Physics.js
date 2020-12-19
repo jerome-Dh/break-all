@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * Box2D Class
+ * Physics Class
  *
  * Handle physics engine with Box2D
  *
@@ -10,14 +10,14 @@
 
  // Declare all the commonly used Box2D objects as variables for convenience
 var b2Vec2 = Box2D.Common.Math.b2Vec2,
-b2BodyDef = Box2D.Dynamics.b2BodyDef,
-b2Body = Box2D.Dynamics.b2Body,
-b2FixtureDef = Box2D.Dynamics.b2FixtureDef,
-b2World = Box2D.Dynamics.b2World,
-b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape,
-b2CircleShape = Box2D.Collision.Shapes.b2CircleShape,
-b2DebugDraw = Box2D.Dynamics.b2DebugDraw,
-b2ContactListener = Box2D.Dynamics.b2ContactListener;
+    b2BodyDef = Box2D.Dynamics.b2BodyDef,
+    b2Body = Box2D.Dynamics.b2Body,
+    b2FixtureDef = Box2D.Dynamics.b2FixtureDef,
+    b2World = Box2D.Dynamics.b2World,
+    b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape,
+    b2CircleShape = Box2D.Collision.Shapes.b2CircleShape,
+    b2DebugDraw = Box2D.Dynamics.b2DebugDraw,
+    b2ContactListener = Box2D.Dynamics.b2ContactListener;
 
 var box2d = {
 
@@ -83,14 +83,14 @@ var box2d = {
     setupDebugDraw: function() {
 
         // Dynamically create a canvas for the debug drawing
-        if (!box2d.debugCanvas) {
+        if ( ! box2d.debugCanvas) {
 
             let canvas = document.createElement("canvas");
 
             canvas.width = 1024;
             canvas.height = 480;
             document.body.appendChild(canvas);
-            canvas.style.top = "480px";
+            canvas.style.top = "80px";
             canvas.style.position = "absolute";
             canvas.style.background = "white";
             box2d.debugCanvas = canvas;
@@ -106,6 +106,7 @@ var box2d = {
         debugDraw.SetLineThickness(1.0);
         debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
         box2d.world.SetDebugDraw(debugDraw);
+
     },
 
     createRectangle: function(entity, definition) {
