@@ -14,7 +14,7 @@
         <meta property="og:locale" content="en">
         <meta property="og:type" content="web-app">
         <meta property="og:title" content="Break-All">
-        <meta property="og:description" content="Break-All is the Game to break and destroy all objects in a scene">
+        <meta property="og:description" content="Break-All is the Game to Break and Destroy all the objects in a scene.">
         <meta property="og:url" content="">
         <meta property="og:site_name" content="Break-All">
         <meta property="og:image" content="favicon.png">
@@ -24,15 +24,14 @@
         <link rel="shortcut icon" href="favicon.png">
         <link rel="icon" href="favicon.png" type="image/png" sizes="256x256">
         <link rel="apple-touch-icon" href="favicon.png">
-        <link rel="preload" href="fonts/Beautiful.ttf" as="font" type="font/truetype" crossorigin>
-        <link rel="preload" href="fonts/BLACK.ttf" as="font" type="font/truetype" crossorigin>
-        <link rel="preload" href="fonts/Vegan.ttf" as="font" type="font/truetype" crossorigin>
+        <link rel="preload" href="fonts/Beautiful.ttf" as="font" crossorigin>
+        <link rel="preload" href="fonts/BLACK.ttf" as="font" crossorigin>
 
         <link rel="author" href="mailto:jdieuhou@gmail.com" />
         <link rel="author" type="text/html" href="https://www.linkedin.com/in/jerome-dh" />
 
         <meta name="author" content="Jerome Dh">
-        <meta name="description" content="Break-All is the Game to break and destroy all objects in a scene">
+        <meta name="description" content="Break-All is the Game to Break and Destroy all the objects in a scene.">
 
         <title>Break All</title>
 
@@ -46,8 +45,8 @@
         <script src="js/Mouse.js" type="text/javascript"></script>
         <script src="js/Physics.js" type="text/javascript"></script>
         <script src="js/Game.js" type="text/javascript"></script>
-        <script src="js/froot.js" type="text/javascript"></script>
-        <link rel="stylesheet" href="css/froot.css" type="text/css" media="screen">
+        <script src="js/break-all.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="css/break-all.css" type="text/css" media="screen">
     </head>
 
     <body>
@@ -87,20 +86,52 @@
 
                 <div id="endingscreen" class="gamelayer">
 
-                    <div>
-                        <p id="endingmessage" class="yellow"><img src='images/icons/checkmark.png' width='32' alt='Well'> The Level Is Over Message</p>
+                    <div class="wrapper">
 
-                        <p id="playcurrentlevel" class="endingoption" onclick="game.restartLevel()">
-                            <img src="images/icons/spinner.png" width="28" alt="Replay">Replay Current Level
-                        </p>
+						<div id="success_all_message" class="endingmessage">
+							<p class="yellow">
+								<span class="head"><img src='images/icons/checkmark.png' width='36' alt='Well'> Big Success !!.</span>
+								<span>You are Great. All Levels are now Complete.<br/>You can now share and then rebuild your house.</span>
+							</p>
+						</div>
 
-                        <p id="playnextlevel" class="endingoption" onclick="game.startNextLevel()">
-                            <img src="images/icons/next.png" width="32" alt="Next Level">Play Next Level
-                        </p>
+						<div id="win_level_message" class="endingmessage">
+							<p class="yellow">
+								<span class="head"><img src='images/icons/checkmark2.png' width='36' alt='Well'> It's Great !</span>
+								<span>You have successfully completed this level.</span>
+							</p>
+						</div>
+						
+						<div id="fail_level_message" class="endingmessage">
+							<p class="yellow">
+								<span class="head"><img src='images/icons/warning.png' width='36' alt='Well'> Oh no !! Failed.</span>
+								<span>You should break everything.</span>
+							</p>
+						</div>
 
-                        <p id="returntolevelscreen" class="endingoption" onclick="game.showLevelScreen()">
-                            <img src="images/icons/undo.png" width="32" alt="Return">Return to Level Screen
-                        </p>
+						<div class="other-options">
+
+							<p id="playcurrentlevel" class="endingoption" onclick="game.restartLevel()">
+								<img class="move" src="images/icons/spinner.png" width="29" alt="Replay">Replay Current Level
+							</p>
+
+							<p id="playnextlevel" class="endingoption" onclick="game.startNextLevel()">
+								<img class="move" src="images/icons/next.png" width="32" alt="Next Level">Play Next Level
+							</p>
+
+							<p id="returntolevelscreen" class="endingoption" onclick="game.showLevelScreen()">
+								<img class="move" src="images/icons/undo.png" width="32" alt="Return">Return to Level Screen
+							</p>
+						</div>
+
+						<div class="share-online">
+							Share with yours friends
+
+							<a href="https://twitter.com/intent/tweet?url=http%3A%2F%2F127.0.0.1%3A8001%2F&text=I'm%20breaking%20everything%2C%20try%20it%20for%20yourself!" target="_blank"><img class="social-button" src="images/icons/twitter.png" width="20"></a> &nbsp;
+							<a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2F127.0.0.1%3A8001%2F" target="_blank"><img class="social-button" src="images/icons/facebook.png" width="20"></a> &nbsp;
+							<a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2F127.0.0.1%3A8001%2F&title=I'm%20breaking%20everything%2C%20try%20it%20for%20yourself!" target="_blank"><img class="social-button" src="images/icons/linkedin.png" width="20"></a>
+
+						</div>
                     </div>
 
                 </div>
@@ -110,7 +141,7 @@
                     <div class="text">
                         <p>
                             <img src="images/icons/0131-spinner9.png" alt="Deco" width="10"/>
-                            Design to be playing with Mouse or Touch
+                            Designed to be play with Mouse or Touch
                         </p>
                     </div>
 
@@ -255,7 +286,7 @@
                                 <td id="save-button">
                                     <button type="submit" onclick="saveSettings()">
                                     <img src="images/icons/drive.png" alt="Settings" width="16"/>
-                                    Save change</button>
+                                    Save changes</button>
                                 </td>
                             </tr>
 
@@ -281,29 +312,28 @@
                         <hr/>
 
                         <p>
-                            Break-All is a solid game which can be playing in the desktop browser as also as mobile.
-                            It consists like Angry Bird to break some objets in the area.
+                            Break-All is a solid game that can be played in the desktop browser as well as on mobile. Like Angry Bird, it consists of breaking objects in the scene.
                         </p>
 
                         <p>
-                            The screens give a realistic gameplay and support mouse or touch.
-                            It can be play with background sound who give more truly state of the scene.
-                            The player can share his score online and 
-                            <a href="javascript:void()" onclick="game.showAllScoreScreen()">see for all others</a>. 
+                           The screens give realistic gameplay and support mouse or touch.
+                           It can be played with a background sound which gives a more real state to the scene.
+                           Player can share their score online and 
+                            <a href="javascript:void()" onclick="game.showAllScoreScreen()">see for everyone else</a>. 
                         </p>
 
                         <p>
-                            This game was developed by <a href="https://www.linkedin.com/in/jerome-dh" target="_blank">Jerome Dh</a>
-                            on its hobby time and it's free and open source.<br/>
-                            For user player, the game is playing online by connecting on his address, this allow user to play without any dependancy.<br/>
-                            For user Developper, the source code is shared on <a href="https://github.com/jerome-dh/break-all" target="_blank">Github</a>. 
-                            They can clone and modify on their own convenience.
+                            This game was developed by <a href="https://github.com/jerome-dh" target="_blank">MILLE LIMIT</a>
+                            and is free to play and download.<br/>
+                            For the user player, the game is played online by connecting to his address, which allows the user to play without any addiction.<br/>
+
+							For players who can code, the source code is shared on <a href="https://github.com/jerome-dh/break-all" target="_blank">Github</a>, they can clone and modify as they see fit.
                         </p>
 
                         <hr/>
 
                         <p>
-                            &copy; MILLE MEDIA - 2020 
+                            &copy; MILLE LIMIT - 2020 
                         </p>
                     </div>
 
@@ -325,12 +355,20 @@
                         <hr/>
 
                         <div class="score-list">
-                            <table width="100%" border="1" cellspacing="3" cellpadding="3">
+
+							<img src="images/icons/spinner11.png" alt="loader" width="20" style="float:left" onclick="getAllScoreFromServer()"/>
+
+							<div id='loading-score'>
+								<img src="images/loader.gif" alt="loader" width="100"/>
+							</div>
+
+							<div id="info-zone"></div>
+
+							<table id="table-scores" width="100%" border="1" cellspacing="3" cellpadding="3">
                                 <tr>
                                     <th>Ip Address</th>
                                     <th>Pseudo</th>
                                     <th>Score</th>
-                                    <th>Date</th>
                                     <th>Level</th>
                                 </tr>
                             </table>
@@ -356,13 +394,13 @@
                         <hr/>
 
                         <p>
-                             <strong>How to play ?</strong><br/>
-                             You want to use a slingshot to shoot and to break all objects inside the scene.
+                             <strong class="yellow">How to play ?</strong><br/>
+                             You should use the slingshot band to shoot the balls and to break all objects inside the scene.
                         </p>
 
                         <p>
-                            <strong>How to Configure ?</strong><br/>
-                            To configure the sound state, your name and others, please click go 
+                            <strong class="yellow">How to Configure ?</strong><br/>
+                            To configure the sound state, your name and others things, please go 
                             <small class="small-link" onclick="game.showSettingScreen()">In Settings</small>
                         </p>
 
@@ -371,7 +409,7 @@
                 </div>
 
                 <footer id="footerscreen">
-                    <small>&copy; MILLE MEDIA</small>
+                    <small>&copy; MILLE LIMIT</small>
                 </footer>
 
             </div>
