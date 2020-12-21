@@ -31,7 +31,7 @@ class Player {
 		$this->date = $date;
 		$this->level = $level;
 	}
-	
+
 	/**
 	 * Check if the player exists in the list
 	 *
