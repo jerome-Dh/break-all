@@ -148,7 +148,7 @@ var entities = {
         },
 		"glass1": {
             shape: "rectangle",
-            fullHealth: 100,
+            fullHealth: 80,
             width: 45, // 90 * 50 / 100
             height: 54, // 107 * 50 / 100
             density: 1,
