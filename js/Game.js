@@ -70,10 +70,13 @@ var game = {
 
         game.backgroundMusic = loader.loadSound("audio/gurdonark-kindergarten");
         game.slingshotReleasedSound = loader.loadSound("audio/released");
+        game.endedSuccessSound = loader.loadSound("audio/fa");
+        game.endedFailureSound = loader.loadSound("audio/woodchime");
         game.contactSound = {
-            "glass": loader.loadSound("audio/glassbreak"),
-            "wood": loader.loadSound("audio/woodbreak"),
             "bounce": loader.loadSound("audio/bounce"),
+            "glass": loader.loadSound("audio/glassbreak"),
+            "gourd": loader.loadSound("audio/gourd"),
+            "wood": loader.loadSound("audio/woodbreak"),
         };
 
 		game.loadImages();
@@ -287,17 +290,17 @@ var game = {
     panTo: function(newCenter) {
 
             // Minimum and Maximum panning offset
-        var minOffset = 0;
-        var maxOffset = game.currentLevel.backgroundImage.width - game.canvas.width;
+        let minOffset = 0,
+			maxOffset = game.currentLevel.backgroundImage.width - game.canvas.width,
 
         // The current center of the screen is half the screen width from the left offset
-        var currentCenter = game.offsetLeft + game.canvas.width / 2;
+			currentCenter = game.offsetLeft + game.canvas.width / 2;
 
         // If the distance between new center and current center is > 0 and we have not panned to the min and max offset limits, keep panning
         if (Math.abs(newCenter - currentCenter) > 0 && game.offsetLeft <= maxOffset && game.offsetLeft >= minOffset) {
             // We will travel half the distance from the newCenter to currentCenter in each tick
             // This will allow easing
-            var deltaX = (newCenter - currentCenter) / 2;
+            let deltaX = (newCenter - currentCenter) / 2;
 
             // However if deltaX is really high, the screen will pan too fast, so if it is greater than maxSpeed
             if (Math.abs(deltaX) > game.maxSpeed) {
@@ -353,13 +356,12 @@ var game = {
     },
 
     handleGameLogic: function() {
-        
+
         if (game.mode === "intro") {
             if (game.panTo(700)) {
                 game.mode = "load-next-hero";
             }
         }
-
 
         if (game.mode === "wait-for-firing") {
             if (mouse.dragging) {
@@ -568,7 +570,7 @@ var game = {
         // Draw the front of the slingshot, offset by the entire offsetLeft distance
         game.context.drawImage(game.slingshotFrontImage, game.slingshotX - game.offsetLeft, game.slingshotY);
 
-        if (!game.ended) {
+        if ( ! game.ended) {
             game.animationFrame = window.requestAnimationFrame(game.animate, game.canvas);
         }
     },
@@ -672,6 +674,10 @@ var game = {
 		success_msg.style.display = 'none';
 
         if (game.mode === "level-success") {
+			
+			if (game.endedSuccessSound && getFSoundState()) {
+				game.endedSuccessSound.play();
+			}
 
             if (game.currentLevel.number < levels.data.length - 1) {
 
@@ -695,6 +701,10 @@ var game = {
             saveNewScore(game.score);
 
         } else if (game.mode === "level-failure") {
+			
+			if (game.endedFailureSound && getFSoundState()) {
+				game.endedFailureSound.play();
+			}
 
 			fail_msg.style.display = 'block';
 
