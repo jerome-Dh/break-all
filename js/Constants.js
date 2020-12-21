@@ -17,5 +17,5 @@ const KEY_UP = 38;
 const KEY_RIGTH = 39;
 const KEY_DOWN = 40;
 
-const SCORE_URL = 'http://127.3.0.1:8001/scores.php';
-// const SCORE_URL = 'https://jeromedh.000webhostapp.com/public/break-all/scores.php';
+// const SCORE_URL = 'http://127.3.0.1:8001/scores.php';
+const SCORE_URL = 'https://jeromedh.000webhostapp.com/public/break-all/scores.php';
