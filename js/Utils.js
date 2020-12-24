@@ -379,7 +379,7 @@ function displayOnlineScores(data) {
  * Send the player score online
  */
 function sendPlayerScoreOnline() {
-	
+
 	let date = new Date(),
 
 		dateStr = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear(),
@@ -389,18 +389,20 @@ function sendPlayerScoreOnline() {
 			score: getBestScore(),
 			date: dateStr,
 			level: getBestLevel()
-		};
+		},
+		playerStr = 'q=new&pseudo=' + encodeURIComponent(player.pseudo) + '&score=' + player.score + '&date=' + player.date + '&level=' + player.level,
+
+		url = SCORE_URL + '?' + playerStr;
 
 	if(window.fetch)
 	{
 		// Fetch API
-		fetch(SCORE_URL, {
-			method: 'POST',
+		fetch(url, {
+			method: 'GET',
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify(player)
 		})
 		.then((response) => response.json())
 		.then((responseJson) => {
@@ -427,11 +429,12 @@ function sendPlayerScoreOnline() {
 				return;
 			}
 		};
-		myRequest.open("POST", SCORE_URL);
+		myRequest.open("GET", url);
 		myRequest.setRequestHeader("Content-Type", "application/json");
-		myRequest.send(JSON.stringify(player));
+		myRequest.send();
 
 	}
+
 }
 
 /**
@@ -447,9 +450,4 @@ function enableOrDisableLevelButtons() {
             levelsButtons[i].disabled = i <= currentLevel ? false : true;
         }
     }
-}
-// Only for test
-function test() {
-	game.hideScreens();
-	game.showScreen('endingscreen');
 }
