@@ -397,12 +397,12 @@ function sendPlayerScoreOnline() {
 	if(window.fetch)
 	{
 		// Fetch API
-		fetch(url, {
-			method: 'GET',
+		fetch(SCORE_URL, {
+			method: 'POST',
 			headers: {
 				'Accept': 'application/json',
-				'Content-Type': 'application/json',
 			},
+			body: JSON.stringify(player),
 		})
 		.then((response) => response.json())
 		.then((responseJson) => {
@@ -429,9 +429,9 @@ function sendPlayerScoreOnline() {
 				return;
 			}
 		};
-		myRequest.open("GET", url);
-		myRequest.setRequestHeader("Content-Type", "application/json");
-		myRequest.send();
+		myRequest.open("POST", SCORE_URL);
+		myRequest.setRequestHeader("Accept", "application/json");
+		myRequest.send(JSON.stringify(player));
 
 	}
 
