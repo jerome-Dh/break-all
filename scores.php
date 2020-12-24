@@ -132,66 +132,26 @@ class Manager {
 }
 
 // Handle all requests with GET
-if($_SERVER['REQUEST_METHOD'] == 'GET') {
-
-	if( ! isset($_GET['q']) or (isset($_GET['q']) and $_GET['q'] == 'all')) {
-		$manager = new Manager();
-		$status = true;
-		$content = $manager->getPlayers();
-	}
-	elseif(isset($_GET['q'], $_GET['pseudo'], $_GET['score'], $_GET['date'], $_GET['level']) and $_GET['q'] == 'new') {
-
-		$player = new Player($_SERVER['REMOTE_ADDR'], $_GET['pseudo'], $_GET['score'], $_GET['date'], $_GET['level']);
-
-		$manager = new Manager();
-		$status = $manager->addPlayer($player);
-		$content = $status ? 'Success' : 'Failed';
-	}
-	else {
-		$status = false;
-		$content = 'Incorrect datas !';
-	}
-
-}
-else {
-	$status = false;
-	$content = 'Method not Allowed !';
-}
-
-// Send back the result
-echo json_encode([
-	'status' => $status,
-	'content' => $content,
-]);
-
-// Handle requests
 // if($_SERVER['REQUEST_METHOD'] == 'GET') {
 
-	// $manager = new Manager();
-	// $status = true;
-	// $content = $manager->getPlayers();
-// }
-// else if($_SERVER['REQUEST_METHOD'] == 'POST') {
+	// if( ! isset($_GET['q']) or (isset($_GET['q']) and $_GET['q'] == 'all')) {
+		// $manager = new Manager();
+		// $status = true;
+		// $content = $manager->getPlayers();
+	// }
+	// elseif(isset($_GET['q'], $_GET['pseudo'], $_GET['score'], $_GET['date'], $_GET['level']) and $_GET['q'] == 'new') {
 
-	// $json = file_get_contents('php://input');
-	// $data = json_decode($json, true);
-
-	// if(isset($data['pseudo'], $data['score'], $data['date'], $data['level'])) {
-
-		// $player = new Player($_SERVER['REMOTE_ADDR'], $data['pseudo'], $data['score'], $data['date'], $data['level']);
+		// $player = new Player($_SERVER['REMOTE_ADDR'], $_GET['pseudo'], $_GET['score'], $_GET['date'], $_GET['level']);
 
 		// $manager = new Manager();
 		// $status = $manager->addPlayer($player);
-		// $content = '';
+		// $content = $status ? 'Success' : 'Failed';
 	// }
 	// else {
 		// $status = false;
 		// $content = 'Incorrect datas !';
 	// }
-// }
-// else if($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-	// header("HTTP/1.1 204 No Content");
-	// header("Vary: Origin");
+
 // }
 // else {
 	// $status = false;
@@ -203,3 +163,43 @@ echo json_encode([
 	// 'status' => $status,
 	// 'content' => $content,
 // ]);
+
+// Handle requests
+if($_SERVER['REQUEST_METHOD'] == 'GET') {
+
+	$manager = new Manager();
+	$status = true;
+	$content = $manager->getPlayers();
+}
+else if($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+	$json = file_get_contents('php://input');
+	$data = json_decode($json, true);
+
+	if(isset($data['pseudo'], $data['score'], $data['date'], $data['level'])) {
+
+		$player = new Player($_SERVER['REMOTE_ADDR'], $data['pseudo'], $data['score'], $data['date'], $data['level']);
+
+		$manager = new Manager();
+		$status = $manager->addPlayer($player);
+		$content = $status ? 'Success' : 'Failed';
+	}
+	else {
+		$status = false;
+		$content = 'Incorrect datas !';
+	}
+}
+else if($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+	header("HTTP/1.1 204 No Content");
+	header("Vary: Origin");
+}
+else {
+	$status = false;
+	$content = 'Method not Allowed !';
+}
+
+// Send back the result
+echo json_encode([
+	'status' => $status,
+	'content' => $content,
+]);
