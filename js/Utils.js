@@ -389,10 +389,7 @@ function sendPlayerScoreOnline() {
 			score: getBestScore(),
 			date: dateStr,
 			level: getBestLevel()
-		},
-		playerStr = 'q=new&pseudo=' + encodeURIComponent(player.pseudo) + '&score=' + player.score + '&date=' + player.date + '&level=' + player.level,
-
-		url = SCORE_URL + '?' + playerStr;
+		};
 
 	if(window.fetch)
 	{
