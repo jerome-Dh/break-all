@@ -5,6 +5,7 @@
 //	Script to manage online scores for Break-All Game
 // 
 // 	@By Jerome Dh <https://github.com/jerome-dh>
+// 	@date 22/12/2020
 // 
 ///////////////////////////////////////////////////////////////
 
@@ -12,6 +13,8 @@
 header('Content-Type: application/json; charset=UTF-8');
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
+header("Access-Control-Allow-Methods: *");
+header("Access-Control-Max-Age: 86400");
 
 /**
  * A Player Class for Break-All Game
@@ -128,30 +131,27 @@ class Manager {
 	}
 }
 
-// Handle requests
+// Handle all requests with GET
 if($_SERVER['REQUEST_METHOD'] == 'GET') {
 
-	$manager = new Manager();
-	$status = true;
-	$content = $manager->getPlayers();
-}
-else if($_SERVER['REQUEST_METHOD'] == 'POST') {
+	if( ! isset($_GET['q']) or (isset($_GET['q']) and $_GET['q'] == 'all')) {
+		$manager = new Manager();
+		$status = true;
+		$content = $manager->getPlayers();
+	}
+	elseif(isset($_GET['q'], $_GET['pseudo'], $_GET['score'], $_GET['date'], $_GET['level']) and $_GET['q'] == 'new') {
 
-	$json = file_get_contents('php://input');
-	$data = json_decode($json, true);
-
-	if(isset($data['pseudo'], $data['score'], $data['date'], $data['level'])) {
-
-		$player = new Player($_SERVER['REMOTE_ADDR'], $data['pseudo'], $data['score'], $data['date'], $data['level']);
+		$player = new Player($_SERVER['REMOTE_ADDR'], $_GET['pseudo'], $_GET['score'], $_GET['date'], $_GET['level']);
 
 		$manager = new Manager();
 		$status = $manager->addPlayer($player);
-		$content = '';
+		$content = $status ? 'Success' : 'Failed';
 	}
 	else {
 		$status = false;
 		$content = 'Incorrect datas !';
 	}
+
 }
 else {
 	$status = false;
@@ -163,3 +163,43 @@ echo json_encode([
 	'status' => $status,
 	'content' => $content,
 ]);
+
+// Handle requests
+// if($_SERVER['REQUEST_METHOD'] == 'GET') {
+
+	// $manager = new Manager();
+	// $status = true;
+	// $content = $manager->getPlayers();
+// }
+// else if($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+	// $json = file_get_contents('php://input');
+	// $data = json_decode($json, true);
+
+	// if(isset($data['pseudo'], $data['score'], $data['date'], $data['level'])) {
+
+		// $player = new Player($_SERVER['REMOTE_ADDR'], $data['pseudo'], $data['score'], $data['date'], $data['level']);
+
+		// $manager = new Manager();
+		// $status = $manager->addPlayer($player);
+		// $content = '';
+	// }
+	// else {
+		// $status = false;
+		// $content = 'Incorrect datas !';
+	// }
+// }
+// else if($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+	// header("HTTP/1.1 204 No Content");
+	// header("Vary: Origin");
+// }
+// else {
+	// $status = false;
+	// $content = 'Method not Allowed !';
+// }
+
+// Send back the result
+// echo json_encode([
+	// 'status' => $status,
+	// 'content' => $content,
+// ]);
