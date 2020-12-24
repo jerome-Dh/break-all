@@ -141,6 +141,15 @@ body {
     background: rgba(1, 1, 1, 0.3);
 }
 
+.content .table {
+	width: 100%;
+	border-spacing: 5px;
+	border-width: 1px;
+}
+.content .table th, .content .table td {
+	padding: 5px;
+}
+
 .navigation .go-left, .navigation .go-right {
     cursor: pointer;
 }
@@ -368,10 +377,13 @@ body {
 }
 
 /* All score screen */
-#allscorescreen table {
-    border-collapse: collapse;
+#table-scores {
+	border-collapse: collapse;
     text-align: center;
     font-size: 12px;
+}
+#table-scores th, #table-scores td {
+	border: 1px solid #fff;
 }
 
 .score-list {
@@ -386,9 +398,6 @@ body {
 
 .score-list small {
 	color: #ccc;
-}
-#table-scores tr:nth(even) {
-	
 }
 
 #loading-score, #info-zone {
