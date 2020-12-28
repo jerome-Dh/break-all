@@ -7,7 +7,7 @@ body {
     /* Disable long touch hold select */
     -webkit-touch-callout: none !important;
 
-    /* overflow: hidden; */
+    overflow: hidden;
 }
 
 #wrapper {
