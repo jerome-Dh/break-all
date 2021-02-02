@@ -260,20 +260,17 @@ function getBestOnlineScore(node) {
  */
 function computeBestOnlineScore(data, node) {
 
-	let max = 0;
+	let playerMax = { score: 0 };
 	if(data.status && data.content && data.content.length) {
 
 		let players = data.content;
-		max = Number(players[0].score);
-		for (let i = 0; i < players.length; ++i) {
-			let current = Number(players[i].score);
-			if(current > max) {
-				max = players[i].score;
-			}
-		}
+		playerMax = players.reduce(
+			(max, item) => Number(item.score) > Number(max.score) ? item : max,
+			players[0]);
 	}
 
-	node.innerHTML = max;
+	node.innerHTML = playerMax.score;
+
 }
 
 /**
