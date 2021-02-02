@@ -264,9 +264,10 @@ function computeBestOnlineScore(data, node) {
 	if(data.status && data.content && data.content.length) {
 
 		let players = data.content;
-		max = players[0].score;
+		max = Number(players[0].score);
 		for (let i = 0; i < players.length; ++i) {
-			if(players[i].score > max) {
+			let current = Number(players[i].score);
+			if(current > max) {
 				max = players[i].score;
 			}
 		}
