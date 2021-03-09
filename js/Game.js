@@ -20,14 +20,10 @@ var game = {
         loader.init();
         mouse.init();
 
-		// test();
         game.loadSounds(function() {
             // game.showStartScreen();
         });
         game.showStartScreen();
-		
-		// test();
-		// test();
 
     },
 
@@ -258,7 +254,7 @@ var game = {
     // The game score
     score: 0,
 
-    // X axis offset for panning the screen from left to right
+    // X axis offset for panning the screen from left to right	
     offsetLeft: 0,
 
     start: function() {
@@ -422,6 +418,7 @@ var game = {
                     impulse = new b2Vec2((game.slingshotBandX - heroPositionX) * impulseScaleFactor,
                     (game.slingshotBandY - heroPositionY) * impulseScaleFactor);
 
+
                 // Apply an impulse to the hero to fire him towards the target
                 game.currentHero.ApplyImpulse(impulse, game.currentHero.GetWorldCenter());
 
@@ -439,7 +436,6 @@ var game = {
 
             // Pan to the location of the current hero as he flies
             let heroX = game.currentHero.GetPosition().x * box2d.scale;
-
             game.panTo(heroX);
 
             // Wait till the hero stops moving or is out of bounds
@@ -734,3 +730,4 @@ var game = {
         box2d.world.Step(timeStep, 8, 3);
     }
 };
+
