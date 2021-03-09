@@ -1,0 +1,20 @@
+
+*** Android port to Break-all Game
+
+---- Problems and cons.
+
+1. Pixel is not the same, using density pixel (1px on desktop = 1/dip on Android)
+2. The density of object world may reduce due to their big dimensions
+3. Screen dimensions have more pixels
+4. It's Important to develop all the game in small view and do the projection on larger screen
+5. The Logcat of Android Studio is slow to get the information, so try use the canvas to show accurate infos.
+
+
+---- Aspects
+
+	03 aspects
+	** Gerer la physique (Mapping mode physique <=> monde reel)
+	** Gerer la fronde (Dessiner la bande)
+	** Gerer l'agrandissement (Facteur d'ecran)
+
+-- 
