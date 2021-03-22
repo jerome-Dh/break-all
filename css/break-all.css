@@ -71,8 +71,29 @@ body {
     text-align: right;
     padding: 0 10px;
     font-size: 75%;
-    color: #222;
+    color: #b2d81c;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+ 
+@keyframes animeInfo{
+	0%{
+		transform: rotate(1deg);
+	}
+	25%{
+		transform: rotate(90deg);
+	}
+	50%{
+		transform: rotate(180deg);
+	}
+	75%{
+		transform: rotate(270deg);
+	}
+	100%{
+		transform: rotate(360deg);
+	}
+}
+img[alt='Deco'] {
+	animation: animeInfo 3s 4s infinite linear;
 }
 .buttons {
     text-align: center;
@@ -94,10 +115,25 @@ body {
 }
 
 /* Buttons Decorations */
+@keyframes animePlayButton{
+	0%, 40%, 70%, 100%{
+		background: url('../images/icons/play-off.png') center no-repeat;
+		transform: rotate(0deg);
+	}
+	55%{
+		background: url('../images/icons/play-on.png') center no-repeat;
+		transform: rotate(-10deg);
+	}
+	60%{
+		background: url('../images/icons/play-on.png') center no-repeat;
+		transform: rotate(-15deg);
+	}
+}
 .btn-play {
     background: url('../images/icons/play-off.png') center no-repeat;
     height: 120px;
     width: 150px;
+	animation: animePlayButton 4s 2s infinite linear;
 }
 
 .btn-play:hover, .btn-play:active {
@@ -129,6 +165,7 @@ body {
  .btn-settings:hover {
     background-image: linear-gradient(to bottom, #322, #772);
  }
+
 
  /** Generique content for multiple screens */
 .content {
