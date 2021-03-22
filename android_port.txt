@@ -15,6 +15,22 @@
 	03 aspects
 	** Gerer la physique (Mapping mode physique <=> monde reel)
 	** Gerer la fronde (Dessiner la bande)
-	** Gerer l'agrandissement (Facteur d'ecran)
+	** Gerer l'agrandissement (Facteur d'echelle d'ecran)
 
--- 
+----- ToDo
+ 
+	** Redim all backgrounds to fit foregrounds (not background 1, 8)
+
+	** See Level 2, It's too difficult to win
+	
+	** Look the level 6
+
+	** Change MILLE LIMIT text in logo
+
+	** Look for Level value when sended online
+
+	** Load soundPool synchronously
+
+	** 
+
+
