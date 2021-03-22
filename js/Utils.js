@@ -72,7 +72,7 @@ function setCurrentScore(score) {
  */
 function getCurrentPseudo() {
     let storagePseudo = localStorage.getItem('current_pseudo');
-    return storagePseudo ? storagePseudo : 'Anonyme';
+    return storagePseudo ? storagePseudo : 'Anonymous';
 }
 
 /**
@@ -150,7 +150,8 @@ function deblockLevel(level) {
 function saveNewScore(score) {
 
     if(score > getBestScore()) {
-        setCurrentScore(score);
+
+		setCurrentScore(score);
 
 		// Save Online
 		if(getSaveOnlineState()) {
@@ -240,7 +241,7 @@ function getBestOnlineScore(node) {
 			if(myRequest.readyState == XMLHttpRequest.DONE)
 			{
 				if(myRequest.status === 200) {
-					// console.log(myRequest.responseText);
+					//console.log(myRequest.responseText);
 					computeBestOnlineScore(JSON.parse(myRequest.responseText), node);
 				}
 			}
@@ -386,7 +387,7 @@ function sendPlayerScoreOnline() {
 			pseudo: getCurrentPseudo(),
 			score: getBestScore(),
 			date: dateStr,
-			level: getBestLevel()
+			level: (getBestLevel() + 1) // Level number begin at 0
 		};
 
 	if(window.fetch)
