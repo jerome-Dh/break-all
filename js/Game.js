@@ -65,6 +65,7 @@ var game = {
     loadSounds: function(onload) {
 
         game.backgroundMusic = loader.loadSound("audio/gurdonark-kindergarten");
+		game.backgroundMusic.loop = true;
         game.slingshotReleasedSound = loader.loadSound("audio/released");
         game.endedSuccessSound = loader.loadSound("audio/fa");
         game.endedFailureSound = loader.loadSound("audio/woodchime");

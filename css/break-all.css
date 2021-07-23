@@ -116,24 +116,20 @@ img[alt='Deco'] {
 
 /* Buttons Decorations */
 @keyframes animePlayButton{
-	0%, 40%, 70%, 100%{
+	0%, 100%{
 		background: url('../images/icons/play-off.png') center no-repeat;
-		transform: rotate(0deg);
+		transform: translateX(0);
 	}
-	55%{
+	40%{
 		background: url('../images/icons/play-on.png') center no-repeat;
-		transform: rotate(-10deg);
-	}
-	60%{
-		background: url('../images/icons/play-on.png') center no-repeat;
-		transform: rotate(-15deg);
+		transform: translateX(8px);
 	}
 }
 .btn-play {
     background: url('../images/icons/play-off.png') center no-repeat;
     height: 120px;
     width: 150px;
-	animation: animePlayButton 4s 2s infinite linear;
+	animation: animePlayButton 2s 1s infinite linear normal;
 }
 
 .btn-play:hover, .btn-play:active {
@@ -251,13 +247,8 @@ img[alt='Deco'] {
     background: darkslategray;
     border-radius: 6px;
     padding: 8px;
-    width: 220px;
+    width: auto;
     cursor: pointer;
-}
-.content [type="submit"] img {
-    position: absolute;
-    margin-left: -30px;
-    margin-top: 1px;
 }
 .small-link {
     font-size: 80%;
