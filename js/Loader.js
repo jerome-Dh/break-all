@@ -1,8 +1,6 @@
 "use strict";
 
 /**
- * Loader Class
- *
  * Load all assets
  *
  * @author Jerome Dh <jdieuhou@gmail.com>
@@ -20,7 +18,7 @@ var loader = {
             audio = document.createElement("audio");
 
         if (audio.canPlayType) {
-               // Currently canPlayType() returns:  "", "maybe" or "probably"
+            // Currently canPlayType() returns:  "", "maybe" or "probably"
             mp3Support = "" !== audio.canPlayType("audio/mpeg");
             oggSupport = "" !== audio.canPlayType("audio/ogg; codecs=\"vorbis\"");
         } else {
@@ -76,7 +74,7 @@ var loader = {
 
         if (loader.loadedCount === loader.totalCount) {
 
-            // Loader has loaded completely..
+            // Loader has loaded completely
             // Reset and clear the loader
             loader.loaded = true;
             loader.loadedCount = 0;

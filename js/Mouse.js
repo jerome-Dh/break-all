@@ -1,9 +1,7 @@
 "use strict";
 
 /**
- * Mouse Class
- *
- * Handle mouse manipulations
+ * Handle mouse interactions
  *
  * @author Jerome Dh <jdieuhou@gmail.com>
  */

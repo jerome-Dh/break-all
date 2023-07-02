@@ -1,8 +1,6 @@
 "use strict";
 
 /**
- * Physics Class
- *
  * Handle physics engine with Box2D
  *
  * @author Jerome Dh <jdieuhou@gmail.com>

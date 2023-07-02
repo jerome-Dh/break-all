@@ -1,8 +1,6 @@
 "use strict";
 
 /**
- * Levels Class
- *
  * Manage levels
  *
  * @author Jerome Dh <jdieuhou@gmail.com>

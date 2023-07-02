@@ -19,6 +19,7 @@ var game = {
         levels.init();
         loader.init();
         mouse.init();
+        setAPIBaseUrl();
 
         game.loadSounds(function() {
             // game.showStartScreen();
@@ -38,9 +39,10 @@ var game = {
     },
 
     scale: 1,
+
     resize: function() {
 
-        let maxWidth = window.innerWidth,
+        const maxWidth = window.innerWidth,
             maxHeight = window.innerHeight,
 
             scale = Math.min(maxWidth / 640, maxHeight / 480),
@@ -50,12 +52,12 @@ var game = {
         gameContainer.style.transform = "translate(-50%, -50%) " + "scale(" + scale + ")";
 
         // Clamp the value between 640 and 1024
-        let width = Math.max(640, Math.min(1024, maxWidth / scale ));
+        const width = Math.max(640, Math.min(1024, maxWidth / scale ));
 
         // Apply this new width to game container and game canvas
         gameContainer.style.width = width + "px";
 
-        let gameCanvas = document.getElementById("gamecanvas");
+        const gameCanvas = document.getElementById("gamecanvas");
 
         gameCanvas.width = width;
 
@@ -124,7 +126,7 @@ var game = {
 
     setBackgroundMusicButton: function() {
 
-        let toggleImage = document.getElementById("togglemusic");
+        const toggleImage = document.getElementById("togglemusic");
 
         if (game.backgroundMusic.paused) {
             toggleImage.src = "images/icons/volume-mute.png";
@@ -135,7 +137,7 @@ var game = {
 
     hideScreens: function() {
 
-        let screens = document.getElementsByClassName("gamelayer");
+        const screens = document.getElementsByClassName("gamelayer");
 
         for (let i = screens.length - 1; i >= 0; i--) {
             var screen = screens[i];
@@ -145,12 +147,12 @@ var game = {
     },
 
     hideScreen: function(id) {
-        let screen = document.getElementById(id);
+        const screen = document.getElementById(id);
         screen.style.display = "none";
     },
 
     showScreen: function(id) {
-        let screen = document.getElementById(id);
+        const screen = document.getElementById(id);
         screen.style.display = "block";
     },
 
@@ -287,7 +289,7 @@ var game = {
     panTo: function(newCenter) {
 
             // Minimum and Maximum panning offset
-        let minOffset = 0,
+        const minOffset = 0,
 			maxOffset = game.currentLevel.backgroundImage.width - game.canvas.width,
 
         // The current center of the screen is half the screen width from the left offset
@@ -340,7 +342,7 @@ var game = {
         game.villains = [];
         for (let body = box2d.world.GetBodyList(); body; body = body.GetNext()) {
 
-            let entity = body.GetUserData();
+            const entity = body.GetUserData();
 
             if (entity) {
                 if (entity.type === "hero") {
@@ -411,7 +413,7 @@ var game = {
 
                 game.mode = "fired";
 
-                let impulseScaleFactor = 0.8,
+                const impulseScaleFactor = 0.8,
                     heroPosition = game.currentHero.GetPosition(),
                     heroPositionX = heroPosition.x * box2d.scale,
                     heroPositionY = heroPosition.y * box2d.scale,
@@ -436,7 +438,7 @@ var game = {
         if (game.mode === "fired") {
 
             // Pan to the location of the current hero as he flies
-            let heroX = game.currentHero.GetPosition().x * box2d.scale;
+            const heroX = game.currentHero.GetPosition().x * box2d.scale;
             game.panTo(heroX);
 
             // Wait till the hero stops moving or is out of bounds
@@ -510,14 +512,14 @@ var game = {
             return false;
         }
 
-        let position = game.currentHero.GetPosition();
+        const position = game.currentHero.GetPosition();
 
         // distance between center of the hero and the mouse cursor
-        let distanceSquared = Math.pow(position.x * box2d.scale - mouse.x - game.offsetLeft, 2) +
+        const distanceSquared = Math.pow(position.x * box2d.scale - mouse.x - game.offsetLeft, 2) +
             Math.pow(position.y * box2d.scale - mouse.y, 2);
 
         // radius of the hero
-        let radiusSquared = Math.pow(game.currentHero.GetUserData().radius, 2);
+        const radiusSquared = Math.pow(game.currentHero.GetUserData().radius, 2);
 
         // if the distance of mouse from the center is less than the radius, mouse is on the hero
         return (distanceSquared <= radiusSquared);
@@ -526,7 +528,7 @@ var game = {
     animate: function() {
         
         // Animate the characters
-        let currentTime = new Date().getTime();
+        const currentTime = new Date().getTime();
 
         if (game.lastUpdateTime) {
 
@@ -582,7 +584,7 @@ var game = {
         // Iterate through all the bodies and draw them on the game canvas
         for (let body = box2d.world.GetBodyList(); body; body = body.GetNext()) {
 
-            let entity = body.GetUserData();
+            const entity = body.GetUserData();
 
             if (entity) {
                 entities.draw(entity, body.GetPosition(), body.GetAngle());
@@ -597,7 +599,7 @@ var game = {
         game.context.lineWidth = 12; // Draw a thick line
 
         // Use angle hero has been dragged and radius to calculate coordinates of edge of hero wrt. hero center
-        let radius = game.currentHero.GetUserData().radius + 1, // 1px extra padding
+        const radius = game.currentHero.GetUserData().radius + 1, // 1px extra padding
             heroX = game.currentHero.GetPosition().x * box2d.scale,
             heroY = game.currentHero.GetPosition().y * box2d.scale,
             angle = Math.atan2(game.slingshotBandY - heroY, game.slingshotBandX - heroX),
@@ -631,11 +633,11 @@ var game = {
         // Iterate through all the bodies
         for (let body = box2d.world.GetBodyList(); body; body = body.GetNext()) {
 
-            let entity = body.GetUserData();
+            const entity = body.GetUserData();
 
             if (entity) {
 
-                let entityX = body.GetPosition().x * box2d.scale;
+                const entityX = body.GetPosition().x * box2d.scale;
 
                 // If the entity goes out of bounds or its health goes below 0
                 if (entityX < 0 || entityX > game.currentLevel.foregroundImage.width ||
@@ -661,7 +663,7 @@ var game = {
 
     showEndingScreen: function() {
 
-        let playNextLevel = document.getElementById("playnextlevel"),
+        const playNextLevel = document.getElementById("playnextlevel"),
             fail_msg = document.getElementById("fail_level_message"),
             level_msg = document.getElementById("win_level_message"),
             success_msg = document.getElementById("success_all_message");
