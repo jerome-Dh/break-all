@@ -311,7 +311,7 @@ img[alt='Deco'] {
     position: absolute;
     left: -10px;
     width: 16px;
-    top: 9px;
+    top: 6px;
 }
 
 /* Footer Screen */
@@ -439,4 +439,17 @@ img[alt='Deco'] {
     color: darkkhaki;
     font-size: 12px;
     margin: 5px 0;
+}
+
+.score-list-spinner {
+    float: left;
+    margin-bottom: 5px;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.see-for-everyone {
+    text-decoration: underline;
 }

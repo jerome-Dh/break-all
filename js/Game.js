@@ -477,7 +477,7 @@ var game = {
                 game.currentHero = game.heroes[game.heroes.length - 1];
 
                 // Starting position for loading the hero
-                let heroStartX = 180,
+                const heroStartX = 180,
                     heroStartY = 180;
 
                 // And position him in mid-air, slightly above the slingshot
@@ -526,13 +526,13 @@ var game = {
     },
 
     animate: function() {
-        
+
         // Animate the characters
         const currentTime = new Date().getTime();
 
         if (game.lastUpdateTime) {
 
-            let timeStep = (currentTime - game.lastUpdateTime) / 1000;
+            const timeStep = (currentTime - game.lastUpdateTime) / 1000;
 
             box2d.step(timeStep);
 

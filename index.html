@@ -346,7 +346,7 @@
                            The screens give realistic gameplay and support mouse or touch.
                            It can be played with a background sound which gives a more real state to the scene.
                            Player can share their score online and 
-                            <a href="javascript:void()" onclick="game.showAllScoreScreen()">see for everyone else</a>. 
+                            <span class="cursor-pointer see-for-everyone" onclick="game.showAllScoreScreen()">see for everyone else</span>. 
                         </p>
 
                         <p>
@@ -382,7 +382,7 @@
 
                         <div class="score-list">
 
-							<img src="images/icons/spinner11.png" alt="loader" width="20" style="float:left" onclick="getAllScoreFromServer()"/>
+							<img src="images/icons/spinner11.png" alt="loader" width="20" class="score-list-spinner cursor-pointer" onclick="getAllScoreFromServer()"/>
 
 							<div id='loading-score'>
 								<img src="images/loader.gif" alt="loader" width="100"/>
@@ -391,12 +391,14 @@
 							<div id="info-zone"></div>
 
 							<table id="table-scores" class="table">
-                                <tr>
-                                    <th>Ip Address</th>
-                                    <th>Pseudo</th>
-                                    <th>Score</th>
-                                    <th>Level</th>
-                                </tr>
+                                <thead>
+                                    <tr>
+                                        <th>Ip Address</th>
+                                        <th>Pseudo</th>
+                                        <th>Score</th>
+                                        <th>Level</th>
+                                    </tr>
+                                </thead>
                             </table>
                         </div>
 

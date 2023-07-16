@@ -27,16 +27,21 @@ class BRequest {
       .catch(err => console.error(err));
   }
 
-  get = async () => this.doQuery(this.baseUrl, HTTP_METHOD.GET, null);
+  get = async () => this.doQuery(`${this.baseUrl}/players`, HTTP_METHOD.GET, null);
 
-  post = async (id, body) => this.doQuery(`${this.baseUrl}/id=${id}`, HTTP_METHOD.POST, body);
+  post = async (id, body) => this.doQuery(`${this.baseUrl}/players?id=${id}`, HTTP_METHOD.POST, body);
 
   doQuery = async (url, method, body) => {
 
     return new Promise((resolve, reject) => {
 
       if(window.fetch) {
-        fetch(url, { method, body, headers: { 'Content-Type': 'application/json' } })
+        let headers = {};
+        if(method === HTTP_METHOD.POST || method === HTTP_METHOD.PUT) {
+          headers = { 'Content-Type': 'application/json' };
+        }
+
+        fetch(url, { method, body, headers })
         .then(response => response.json())
         .then(json => resolve(json))
         .catch(err => reject(err));
@@ -50,8 +55,10 @@ class BRequest {
         };
         myRequest.open(method, url);
         myRequest.onerror = reject;
-        myRequest.setRequestHeader('Content-Type', 'application/json');
-        myRequest.send();
+        if(method === HTTP_METHOD.POST || method === HTTP_METHOD.PUT) {
+          myRequest.setRequestHeader('Content-Type', 'application/json');
+        }
+        myRequest.send(body);
       }
     });
   }

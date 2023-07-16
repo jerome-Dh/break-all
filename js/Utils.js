@@ -224,7 +224,7 @@ function getBestOnlineScore(node) {
  */
 function computeBestOnlineScore(data, node) {
 
-	const playerMax = { score: 0 };
+	let playerMax = { score: 0 };
 	if(data.content && data.content.length) {
 
 		const players = data.content;
@@ -264,23 +264,22 @@ function getAllScoreFromServer() {
  */
 function displayOnlineScores(data) {
 
-	const info = document.getElementById('info-zone');
-
-	const players = data.content,
-		table_scores = document.getElementById('table-scores');
-
+	const players = data.content;
 	if(!players.length) {
+		const info = document.getElementById('info-zone');
 		info.innerHTML = '!! No score recorded !!';
 		info.style.display = 'block';
 	}
 	else {
 
-		// Remove others
-		const already = document.getElementsByClassName('player-score-online');
-		for(let i = 0; i < already.length; ++i) {
-			table_scores.removeChild(already[i]);
+		const TBODY_ID = 'table-scores-body';
+		const already = document.getElementById(TBODY_ID);
+		if(already) {
+			already.remove();
 		}
 
+		const tbody = document.createElement('tbody');
+		tbody.id = TBODY_ID;
 		for (let i = 0; i < players.length; ++i) {
 
 			let tds = '<td>' + players[i].addr + '<br/><small>' + players[i].date + '</small></td>'
@@ -292,8 +291,11 @@ function displayOnlineScores(data) {
 			tr.classList.add('player-score-online');
 			tr.innerHTML = tds;
 
-			table_scores.appendChild(tr);
+			tbody.appendChild(tr);
 		}
+
+		const table_scores = document.getElementById('table-scores')
+		table_scores.appendChild(tbody);
 	}
 }
 
@@ -311,10 +313,7 @@ function sendPlayerScoreOnline() {
 	const userId = localStorage.getItem('userId');
 	new BRequest()
 		.post(userId ? userId : 0, JSON.stringify(player))
-		.then(resp => {
-			localStorage.setItem('userId', resp.content);
-			console.log(resp)
-		})
+		.then(resp => localStorage.setItem('userId', resp.content))
 		.catch(err => console.error(err));
 }
 
