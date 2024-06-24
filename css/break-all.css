@@ -453,3 +453,8 @@ img[alt='Deco'] {
 .see-for-everyone {
     text-decoration: underline;
 }
+
+.simple-link {
+    text-decoration: none;
+    color: #ccc;
+}
