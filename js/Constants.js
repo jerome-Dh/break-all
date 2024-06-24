@@ -16,4 +16,4 @@ const KEY_UP = 38;
 const KEY_RIGTH = 39;
 const KEY_DOWN = 40;
 
-const DEFAULT_BASE_URL = 'http://54.221.90.45:3000';
+const DEFAULT_BASE_URL = 'https://break-all-db.skelenews.com';
