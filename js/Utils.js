@@ -282,7 +282,7 @@ function displayOnlineScores(data) {
 		tbody.id = TBODY_ID;
 		for (let i = 0; i < players.length; ++i) {
 
-			let tds = '<td>' + players[i].addr + '<br/><small>' + players[i].date + '</small></td>'
+			let tds = '<td>' + '-' + '<br/><small>' + players[i].date + '</small></td>'
 					+'<td>' + players[i].pseudo + '</td>'
 					+'<td>' + players[i].score + '</td>'
 					+'<td>' + players[i].level + '</td>',
