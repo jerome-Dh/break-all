@@ -458,3 +458,27 @@ img[alt='Deco'] {
     text-decoration: none;
     color: #ccc;
 }
+
+.font-italic {
+    font-style: italic;
+}
+
+.font85p {
+    font-size: 85%;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.yellow-green {
+    color: yellowgreen;
+}
+
+.line-height-20 {
+    line-height: 20px;
+}
+
+.mt15 {
+    margin-top: 15px !important;
+}
