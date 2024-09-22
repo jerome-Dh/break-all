@@ -38,7 +38,7 @@ var levels = {
 			{ type: "block", name: "glass", x: 510, y: 370, angle: 90, width: 120, height: 26, contactSound: "glass",},
 			{ type: "block", name: "glass", x: 656, y: 370, angle: 90, width: 120, height: 26, contactSound: "glass",},
 			{ type: "block", name: "wood", x: 583, y: 297, angle: 0, width: 172, height: 26, contactSound: "wood",},
-			{ type: "villain", name: "bottle2", x: 583, y: 384, calories: 300, contactSound: "glass",},
+			// { type: "villain", name: "bottle2", x: 583, y: 384, calories: 300, contactSound: "glass",},
 			{ type: "villain", name: "glass1", x: 656, y: 257, calories: 270, contactSound: "glass",},
 
 			// Block 2

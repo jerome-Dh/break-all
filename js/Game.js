@@ -569,7 +569,7 @@ var game = {
         // Draw the front of the slingshot, offset by the entire offsetLeft distance
         game.context.drawImage(game.slingshotFrontImage, game.slingshotX - game.offsetLeft, game.slingshotY);
 
-        if ( ! game.ended) {
+        if (!game.ended) {
             game.animationFrame = window.requestAnimationFrame(game.animate, game.canvas);
         }
     },
@@ -717,6 +717,4 @@ var game = {
         // Stop the background music when the game ends
         game.stopBackgroundMusic();
     },
-
-};
-
+}
