@@ -272,11 +272,14 @@ function displayOnlineScores(data) {
 	}
 	else {
 
-		const TBODY_ID = 'table-scores-body';
-		const already = document.getElementById(TBODY_ID);
+		const TBODY_ID = 'table-scores-body',
+		already = document.getElementById(TBODY_ID)
 		if(already) {
-			already.remove();
+			already.remove()
 		}
+
+		// Sort data
+		players.sort((a, b) => b.score - a.score)
 
 		const tbody = document.createElement('tbody');
 		tbody.id = TBODY_ID;
